@@ -33,6 +33,26 @@
               ref="host"
             >
             </cv-text-input>
+            <cv-text-input
+              :label="$t('settings.surrealdb_username')"
+              placeholder="Username"
+              v-model="SURREALDB_NAME"
+              class="mg-bottom"
+              :invalid-message="$t(error.SURREALDB_NAME)"
+              :disabled="loading.getConfiguration || loading.configureModule"
+              ref="SURREALDB_NAME"
+            >
+            </cv-text-input>
+            <cv-text-input
+              :label="$t('settings.surrealdb_password')"
+              placeholder="Surrealdb Password"
+              v-model="SURREALDB_PASSWORD"
+              class="mg-bottom"
+              :invalid-message="$t(error.SURREALDB_PASSWORD)"
+              :disabled="loading.getConfiguration || loading.configureModule"
+              ref="SURREALDB_PASSWORD"
+            >
+            </cv-text-input>
             <cv-toggle
               value="letsEncrypt"
               :label="$t('settings.lets_encrypt')"
@@ -123,6 +143,8 @@ export default {
       },
       urlCheckInterval: null,
       host: "",
+      SURREALDB_NAME: "",
+      SURREALDB_PASSWORD: "",
       isLetsEncryptEnabled: false,
       isHttpToHttpsEnabled: true,
       loading: {
@@ -133,6 +155,8 @@ export default {
         getConfiguration: "",
         configureModule: "",
         host: "",
+        SURREALDB_NAME: "",
+        SURREALDB_PASSWORD: "",
         lets_encrypt: "",
         http2https: "",
       },
@@ -202,6 +226,8 @@ export default {
       this.host = config.host;
       this.isLetsEncryptEnabled = config.lets_encrypt;
       this.isHttpToHttpsEnabled = config.http2https;
+      this.SURREALDB_NAME = config.SURREALDB_NAME;
+      this.SURREALDB_PASSWORD = config.SURREALDB_PASSWORD
 
       this.loading.getConfiguration = false;
       this.focusElement("host");
@@ -218,6 +244,25 @@ export default {
         }
         isValidationOk = false;
       }
+      if (!this.SURREALDB_NAME)
+      {
+        this.error.SURREALDB_NAME = "common.required"
+        if (isValidationOk)
+        {
+          this.focusElement("SURREALDB_NAME")
+        }
+        isValidationOk = false
+      }
+      if (!this.SURREALDB_PASSWORD)
+      {
+        this.error.SURREALDB_PASSWORD = "common.required"
+        if (isValidationOk)
+        {
+          this.focusElement("SURREALDB_PASSWORD")
+        }
+        isValidationOk = false
+      }
+
       return isValidationOk;
     },
     configureModuleValidationFailed(validationErrors) {
@@ -271,6 +316,8 @@ export default {
             host: this.host,
             lets_encrypt: this.isLetsEncryptEnabled,
             http2https: this.isHttpToHttpsEnabled,
+            SURREALDB_NAME: this.SURREALDB_NAME,
+            SURREALDB_PASSWORD: this.SURREALDB_PASSWORD
           },
           extra: {
             title: this.$t("settings.instance_configuration", {

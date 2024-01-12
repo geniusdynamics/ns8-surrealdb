@@ -17,17 +17,16 @@ data = json.load(sys.stdin)
 # we read a json stdin {"vars1":true, "var2":"foo", "vars3": 3} and we writ it to .config/state/environment
 # Upper case to set environment variable and minor case to read from stdin
 
-# this values must exists in the json stdin
-# agent.set_env("MAIL_SERVER", data["mail_server"])
-# agent.set_env("LDAP_DOMAIN", data["ldap_domain"])
+SURREALDB_NAME = data.get("SURREALDB_NAME", "root")
+SURREALDB_PASSWORD = data.get("SURREAL_PASSWORD", "root")
 
-# you can add default values for the following variables
-# agent.set_env("MAIL_DOMAIN",data.get("mail_domain",""))
-# agent.set_env("WOWORKERSCOUNT",data.get("workers_count",3))
-# agent.set_env("AUXILIARYACCOUNT",data.get("auxiliary_account",True))
-# agent.set_env("ACTIVESYNC",data.get("activesync",False))
+agent.write_envfile("database.env", {
+    "SURREALDB_NAME" : SURREALDB_NAME,
+    "SURREALDB_PASSWORD": SURREALDB_PASSWORD
+})
 
+agent.set_env("SURREALDB_PASSWORD", SURREALDB_PASSWORD)
+agent.set_env("SURREALDB_NAME", SURREALDB_NAME)
 
-# Make sure everything is saved inside the environment file
-# just before starting systemd unit
-#agent.dump_env()
+agent.dump_env()
+

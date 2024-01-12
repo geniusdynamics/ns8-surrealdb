@@ -21,6 +21,8 @@ config = {}
 config["host"] = os.getenv("TRAEFIK_HOST","")
 config["http2https"] = os.getenv("TRAEFIK_HTTP2HTTPS") == "True"
 config["lets_encrypt"] = os.getenv("TRAEFIK_LETS_ENCRYPT") == "True"
+config["SURREALDB_NAME"] = os.getenv("SURREALDB_NAME", "")
+config["SURREALDB_PASSWORD"] = os.getenv("SURREALDB_PASSWORD", "")
 
 # Dump the configuration to stdout
 json.dump(config, fp=sys.stdout)
