@@ -32,31 +32,35 @@ To start a new module from it:
 
 Instantiate the module with:
 
-    add-module ghcr.io/nethserver/kickstart:latest 1
+    add-module ghcr.io/compgeniuses/surrealdbngx:latest 1
 
 The output of the command will return the instance name.
 Output example:
 
-    {"module_id": "kickstart1", "image_name": "kickstart", "image_url": "ghcr.io/nethserver/kickstart:latest"}
+    {"module_id": "surrealdbngx", "image_name": "surrealdbngx", "image_url": "ghcr.io/compgeniuses/surrealdbngx:latest"}
 
 ## Configure
 
-Let's assume that the mattermost instance is named `kickstart1`.
+Let's assume that the mattermost instance is named `Surrealdbngx`.
 
 Launch `configure-module`, by setting the following parameters:
 - `host`: a fully qualified domain name for the application
 - `http2https`: enable or disable HTTP to HTTPS redirection (true/false)
 - `lets_encrypt`: enable or disable Let's Encrypt certificate (true/false)
+- `SURREALDB_NAME`: this is the surrealdb username
+- `SURREALDB_PASSWORD`: this is the surrealdb password for authentication
 
 
 Example:
 
 ```
-api-cli run configure-module --agent module/kickstart1 --data - <<EOF
+api-cli run configure-module --agent module/surrealdb1 --data - <<EOF
 {
   "host": "kickstart.domain.com",
   "http2https": true,
-  "lets_encrypt": false
+  "lets_encrypt": false,
+  "SURREALDB_NAME": "root,
+  "SURREALDB_PASSWORD": root,
 }
 EOF
 ```
@@ -69,14 +73,14 @@ The above command will:
 You can retrieve the configuration with
 
 ```
-api-cli run get-configuration --agent module/kickstart1
+api-cli run get-configuration --agent module/surrealdb1
 ```
 
 ## Uninstall
 
 To uninstall the instance:
 
-    remove-module --no-preserve kickstart1
+    remove-module --no-preserve surrealdb1
 
 ## Smarthost setting discovery
 
@@ -92,7 +96,7 @@ Furthermore if smarthost setup is changed when kickstart is already
 running, the event handler `events/smarthost-changed/10reload_services`
 restarts the main module service.
 
-See also the `systemd/user/kickstart.service` file.
+See also the `systemd/user/surrealdb.service` file.
 
 This setting discovery is just an example to understand how the module is
 expected to work: it can be rewritten or discarded completely.
@@ -104,20 +108,20 @@ some CLI are needed to debug
 - The module runs under an agent that initiate a lot of environment variables (in /home/kickstart1/.config/state), it could be nice to verify them
 on the root terminal
 
-    `runagent -m kickstart1 env`
+    `runagent -m surrealdb1 env`
 
 - you can become runagent for testing scripts and initiate all environment variables
   
-    `runagent -m kickstart1`
+    `runagent -m surrealdb1`
 
  the path become : 
 ```
     echo $PATH
-    /home/kickstart1/.config/bin:/usr/local/agent/pyenv/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/usr/
+    /home/surrealdb1/.config/bin:/usr/local/agent/pyenv/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/usr/
 ```
 
 - if you want to debug a container or see environment inside
- `runagent -m kickstart1`
+ `runagent -m surrealdb1`
  ```
 podman ps
 CONTAINER ID  IMAGE                                      COMMAND               CREATED        STATUS        PORTS                    NAMES

@@ -1,0 +1,40 @@
+#
+# Copyright (C) 2022 Nethesis S.r.l.
+# SPDX-License-Identifier: GPL-3.0-or-later
+#
+
+[Unit]
+Description=Podman  surrealdb-app.service
+BindsTo=surrealdb.service
+After=surrealdb.service
+
+[Service]
+Environment=PODMAN_SYSTEMD_UNIT=%n
+EnvironmentFile=%S/state/environment
+EnvironmentFile=-%S/state/smarthost.env
+WorkingDirectory=%S/state
+Restart=always
+TimeoutStopSec=70
+ExecStartPre=/bin/mkdir -p config
+ExecStartPre=/bin/rm -f %t/surrealdb-app.pid %t/surrealdb-app.ctr-id
+ExecStartPre=-runagent discover-smarthost
+ExecStart=/usr/bin/podman run --conmon-pidfile %t/surrealdb-app.pid \
+    --cidfile %t/surrealdb-app.ctr-id --cgroups=no-conmon \
+    --pod-id-file %t/surrealdb.pod-id --replace -d --name  surrealdb-app \
+    --volume/mydata:/mydata  \
+        start \
+        file:/mydata/mydatabase.db \
+    --env SURREALDB_HOST=127.0.0.1 \
+    --env SURREALDB_NAME=${SURREALDB_NAME} \
+    --env SURREALDB_PASSWORD=${SURREALDB_PASSWORD} \
+    --log trace \
+    ${NGINX_IMAGE}
+ExecStop=/usr/bin/podman stop --ignore --cidfile %t/surrealdb-app.ctr-id -t 10
+ExecReload=/usr/bin/podman kill -s HUP surrealdb-app
+SyslogIdentifier=%u
+ExecStopPost=/usr/bin/podman rm --ignore -f --cidfile %t/surrealdb-app.ctr-id
+PIDFile=%t/surrealdb-app.pid
+Type=forking
+
+[Install]
+WantedBy=default.target
