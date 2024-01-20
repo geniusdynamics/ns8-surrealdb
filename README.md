@@ -32,16 +32,16 @@ To start a new module from it:
 
 Instantiate the module with:
 
-    add-module ghcr.io/compgeniuses/surrealdbngx:latest 1
+    add-module ghcr.io/compgeniuses/surrealdb:latest 1
 
 The output of the command will return the instance name.
 Output example:
 
-    {"module_id": "surrealdbngx", "image_name": "surrealdbngx", "image_url": "ghcr.io/compgeniuses/surrealdbngx:latest"}
+    {"module_id": "surrealdb", "image_name": "surrealdbngx", "image_url": "ghcr.io/compgeniuses/surrealdbngx:latest"}
 
 ## Configure
 
-Let's assume that the mattermost instance is named `Surrealdbngx`.
+Let's assume that the mattermost instance is named `Surrealdb`.
 
 Launch `configure-module`, by setting the following parameters:
 - `host`: a fully qualified domain name for the application
@@ -56,7 +56,7 @@ Example:
 ```
 api-cli run configure-module --agent module/surrealdb1 --data - <<EOF
 {
-  "host": "kickstart.domain.com",
+  "host": "surreal.domain.com",
   "http2https": true,
   "lets_encrypt": false,
   "SURREALDB_NAME": "root,
