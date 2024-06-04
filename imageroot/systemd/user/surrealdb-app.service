@@ -24,12 +24,12 @@ ExecStart=/usr/bin/podman run --conmon-pidfile %t/surrealdb-app.pid \
     --volume mydata:/mydata  \
     ${SURREALDB_IMAGE} \
     start \
-    file:/mydata/mydatabase.db \
+    -p 8000 \
     --auth \
     --user ${SURREALDB_NAME} \
     --pass ${SURREALDB_PASSWORD} \
-    --log trace
-
+    --log trace \
+    file:/mydata/mydatabase.db
 ExecStop=/usr/bin/podman stop --ignore --cidfile %t/surrealdb-app.ctr-id -t 10
 ExecReload=/usr/bin/podman kill -s HUP surrealdb-app
 SyslogIdentifier=%u
