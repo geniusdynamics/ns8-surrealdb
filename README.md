@@ -1,9 +1,9 @@
-# ns8-kickstart
+# ns8-surrealdb
 
 This is a template module for [NethServer 8](https://github.com/NethServer/ns8-core).
 To start a new module from it:
 
-1. Click on [Use this template](https://github.com/NethServer/ns8-kickstart/generate).
+1. Click on [Use this template](https://github.com/NethServer/ns8-surrealdb/generate).
    Name your repo with `ns8-` prefix (e.g. `ns8-mymodule`). 
    Do not end your module name with a number, like ~~`ns8-baaad2`~~!
 
@@ -13,9 +13,9 @@ To start a new module from it:
 1. Rename some references inside the repo:
    ```
    modulename=$(basename $(pwd) | sed 's/^ns8-//')
-   git mv imageroot/systemd/user/kickstart.service imageroot/systemd/user/${modulename}.service
-   git mv tests/kickstart.robot tests/${modulename}.robot
-   sed -i "s/kickstart/${modulename}/g" $(find .github/ * -type f)
+   git mv imageroot/systemd/user/surrealdb.service imageroot/systemd/user/${modulename}.service
+   git mv tests/surrealdb.robot tests/${modulename}.robot
+   sed -i "s/surrealdb/${modulename}/g" $(find .github/ * -type f)
    git commit -a -m "Repository initialization"
    ```
 
@@ -66,7 +66,7 @@ EOF
 ```
 
 The above command will:
-- start and configure the kickstart instance
+- start and configure the surrealdb instance
 - configure a virtual host for trafik to access the instance
 
 ## Get the configuration
@@ -95,10 +95,10 @@ Some configuration settings, like the smarthost setup, are not part of the
 Redis keys.  To ensure the module is always up-to-date with the
 centralized [smarthost
 setup](https://nethserver.github.io/ns8-core/core/smarthost/) every time
-kickstart starts, the command `bin/discover-smarthost` runs and refreshes
+surrealdb starts, the command `bin/discover-smarthost` runs and refreshes
 the `state/smarthost.env` file with fresh values from Redis.
 
-Furthermore if smarthost setup is changed when kickstart is already
+Furthermore if smarthost setup is changed when surrealdb is already
 running, the event handler `events/smarthost-changed/10reload_services`
 restarts the main module service.
 
@@ -111,7 +111,7 @@ expected to work: it can be rewritten or discarded completely.
 
 some CLI are needed to debug
 
-- The module runs under an agent that initiate a lot of environment variables (in /home/kickstart1/.config/state), it could be nice to verify them
+- The module runs under an agent that initiate a lot of environment variables (in /home/surrealdb1/.config/state), it could be nice to verify them
 on the root terminal
 
     `runagent -m surrealdb1 env`
@@ -133,24 +133,24 @@ podman ps
 CONTAINER ID  IMAGE                                      COMMAND               CREATED        STATUS        PORTS                    NAMES
 d292c6ff28e9  localhost/podman-pause:4.6.1-1702418000                          9 minutes ago  Up 9 minutes  127.0.0.1:20015->80/tcp  80b8de25945f-infra
 d8df02bf6f4a  docker.io/library/mariadb:10.11.5          --character-set-s...  9 minutes ago  Up 9 minutes  127.0.0.1:20015->80/tcp  mariadb-app
-9e58e5bd676f  docker.io/library/nginx:stable-alpine3.17  nginx -g daemon o...  9 minutes ago  Up 9 minutes  127.0.0.1:20015->80/tcp  kickstart-app
+9e58e5bd676f  docker.io/library/nginx:stable-alpine3.17  nginx -g daemon o...  9 minutes ago  Up 9 minutes  127.0.0.1:20015->80/tcp  surrealdb-app
 ```
 
 you can see what environment variable is inside the container
 ```
-podman exec  kickstart-app env
+podman exec  surrealdb-app env
 PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 TERM=xterm
 PKG_RELEASE=1
 MARIADB_DB_HOST=127.0.0.1
-MARIADB_DB_NAME=kickstart
+MARIADB_DB_NAME=surrealdb
 MARIADB_IMAGE=docker.io/mariadb:10.11.5
 MARIADB_DB_TYPE=mysql
 container=podman
 NGINX_VERSION=1.24.0
 NJS_VERSION=0.7.12
-MARIADB_DB_USER=kickstart
-MARIADB_DB_PASSWORD=kickstart
+MARIADB_DB_USER=surrealdb
+MARIADB_DB_PASSWORD=surrealdb
 MARIADB_DB_PORT=3306
 HOME=/root
 ```
@@ -158,7 +158,7 @@ HOME=/root
 you can run a shell inside the container
 
 ```
-podman exec -ti   kickstart-app sh
+podman exec -ti   surrealdb-app sh
 / # 
 ```
 ## Testing
@@ -166,7 +166,7 @@ podman exec -ti   kickstart-app sh
 Test the module using the `test-module.sh` script:
 
 
-    ./test-module.sh <NODE_ADDR> ghcr.io/nethserver/kickstart:latest
+    ./test-module.sh <NODE_ADDR> ghcr.io/nethserver/surrealdb:latest
 
 The tests are made using [Robot Framework](https://robotframework.org/)
 
