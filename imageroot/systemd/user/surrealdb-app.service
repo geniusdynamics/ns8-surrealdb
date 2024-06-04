@@ -12,6 +12,7 @@ After=surrealdb.service
 Environment=PODMAN_SYSTEMD_UNIT=%n
 EnvironmentFile=%S/state/environment
 EnvironmentFile=-%S/state/smarthost.env
+EnvironmentFile=-%S/state/database.env
 WorkingDirectory=%S/state
 Restart=always
 TimeoutStopSec=70
@@ -24,12 +25,11 @@ ExecStart=/usr/bin/podman run --conmon-pidfile %t/surrealdb-app.pid \
     --volume mydata:/mydata  \
     ${SURREALDB_IMAGE} \
     start \
-    -p 8000 \
     --auth \
-    --user ${SURREALDB_NAME} \
-    --pass ${SURREALDB_PASSWORD} \
+    --username ${SURREALDB_NAME} \
+    --password ${SURREALDB_PASSWORD} \
     --log trace \
-    file:/mydata/mydatabase.db
+    file:mydata/mydatabase.db
 ExecStop=/usr/bin/podman stop --ignore --cidfile %t/surrealdb-app.ctr-id -t 10
 ExecReload=/usr/bin/podman kill -s HUP surrealdb-app
 SyslogIdentifier=%u
