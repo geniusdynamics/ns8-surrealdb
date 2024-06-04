@@ -21,7 +21,7 @@ ExecStartPre=-runagent discover-smarthost
 ExecStart=/usr/bin/podman run --conmon-pidfile %t/surrealdb-app.pid \
     --cidfile %t/surrealdb-app.ctr-id --cgroups=no-conmon \
     --pod-id-file %t/surrealdb.pod-id --replace -d --name  surrealdb-app \
-    --volume /mydata:/mydata  \
+    --volume mydata:/mydata  \
     ${SURREALDB_IMAGE} \
     start \
     file:/mydata/mydatabase.db \
