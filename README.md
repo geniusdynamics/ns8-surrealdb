@@ -32,12 +32,12 @@ To start a new module from it:
 
 Instantiate the module with:
 
-    add-module ghcr.io/compgeniuses/surrealdb:latest 1
+    add-module ghcr.io/geniusdynamics/surrealdb:latest 1
 
 The output of the command will return the instance name.
 Output example:
 
-    {"module_id": "surrealdb", "image_name": "surrealdbngx", "image_url": "ghcr.io/compgeniuses/surrealdbngx:latest"}
+    {"module_id": "surrealdb", "image_name": "surrealdbngx", "image_url": "ghcr.io/geniusdynamics/surrealdbngx:latest"}
 
 ## Configure
 
