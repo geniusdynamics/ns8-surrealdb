@@ -21,14 +21,15 @@ ExecStartPre=-runagent discover-smarthost
 ExecStart=/usr/bin/podman run --conmon-pidfile %t/surrealdb-app.pid \
     --cidfile %t/surrealdb-app.ctr-id --cgroups=no-conmon \
     --pod-id-file %t/surrealdb.pod-id --replace -d --name  surrealdb-app \
-    --volume/mydata:/mydata  \
-        start \
-        file:/mydata/mydatabase.db \
-    --env SURREALDB_HOST=127.0.0.1 \
-    --env SURREALDB_NAME=${SURREALDB_NAME} \
-    --env SURREALDB_PASSWORD=${SURREALDB_PASSWORD} \
-    --log trace \
-    ${NGINX_IMAGE}
+    --volume /mydata:/mydata  \
+    ${SURREALDB_IMAGE} \
+    start \
+    file:/mydata/mydatabase.db \
+    --auth \
+    --user ${SURREALDB_NAME} \
+    --pass ${SURREALDB_PASSWORD} \
+    --log trace
+
 ExecStop=/usr/bin/podman stop --ignore --cidfile %t/surrealdb-app.ctr-id -t 10
 ExecReload=/usr/bin/podman kill -s HUP surrealdb-app
 SyslogIdentifier=%u
