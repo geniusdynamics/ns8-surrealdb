@@ -25,6 +25,7 @@ ExecStart=/usr/bin/podman run --conmon-pidfile %t/surrealdb-app.pid \
     --volume mydata:/mydata  \
     ${SURREALDB_IMAGE} \
     start \
+    -p 80:8000 \
     --auth \
     --username ${SURREALDB_NAME} \
     --password ${SURREALDB_PASSWORD} \
