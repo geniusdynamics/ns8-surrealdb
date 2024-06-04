@@ -76,6 +76,12 @@ You can retrieve the configuration with
 api-cli run get-configuration --agent module/surrealdb1
 ```
 
+## Update
+
+```shell
+api-cli run update-module --data '{"module_url":"ghcr.io/geniusdynamics/surrealdb:latest","instances":["surrealdb1"],"force":true}'
+```
+
 ## Uninstall
 
 To uninstall the instance:
