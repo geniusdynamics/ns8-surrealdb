@@ -18,7 +18,7 @@ data = json.load(sys.stdin)
 # Upper case to set environment variable and minor case to read from stdin
 
 SURREALDB_NAME = data.get("SURREALDB_NAME", "root")
-SURREALDB_PASSWORD = data.get("SURREAL_PASSWORD", "root")
+SURREALDB_PASSWORD = data.get("SURREALDB_PASSWORD", "root")
 
 agent.write_envfile("database.env", {
     "SURREALDB_NAME" : SURREALDB_NAME,
