@@ -25,6 +25,8 @@
     "configure_instance": "Configure {instance}",
     "save": "Save",
     "surrealdb_fqdn": "surrealdb hostname (FQDN)",
+    "surrealdb_username": "SurrealDB Username",
+    "surrealdb_password": "SurrealDB Password",
     "lets_encrypt": "Request LE Certificate",
     "http_to_https": "Force HTTPS",
     "enabled": "Enabled",
