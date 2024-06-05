@@ -51,6 +51,7 @@
               :invalid-message="$t(error.SURREALDB_PASSWORD)"
               :disabled="loading.getConfiguration || loading.configureModule"
               ref="SURREALDB_PASSWORD"
+              type="password"
             >
             </cv-text-input>
             <cv-toggle
