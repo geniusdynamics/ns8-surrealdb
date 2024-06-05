@@ -1,19 +1,23 @@
 {
   "name": "surrealdb",
   "description": {
-    "en": "My surrealdb module"
+    "en": "SurrealDB offers a dynamic and adaptable platform for business. With an integrated suite of cutting-edge database solutions, tools, and services, SurrealDB empowers your workforce to discover innovative answers using products meticulously crafted to meet their requirements."
   },
-  "categories": [],
+  "categories": ["database", "backend as a service", "collaboration"],
   "authors": [
     {
-      "name": "Name Surname",
-      "email": "author@yourmail.org"
+      "name": "Kemboi Elvis",
+      "email": "kemboielvis@genius.ke"
+    },
+    {
+      "name": "Martin Bhoung",
+      "email": "martin@genius.ke"
     }
   ],
   "docs": {
     "documentation_url": "https://docs.surrealdb.com/",
-    "bug_url": "https://github.com/NethServer/dev",
-    "code_url": "https://github.com/author/ns8-surrealdb"
+    "bug_url": "https://github.com/geniusdynamics/ns8-surrealdb",
+    "code_url": "https://github.com/geniusdynamics/ns8-surrealdb"
   },
-  "source": "ghcr.io/nethserver/surrealdb"
+  "source": "ghcr.io/geniusdynamics/surrealdb"
 }
