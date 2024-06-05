@@ -23,7 +23,6 @@ ExecStart=/usr/bin/podman run --conmon-pidfile %t/surrealdb-app.pid \
     --cidfile %t/surrealdb-app.ctr-id --cgroups=no-conmon \
     --pod-id-file %t/surrealdb.pod-id --replace -d --name  surrealdb-app \
     --volume mydata:/mydata  \
-    always \
     ${SURREALDB_IMAGE} \
     start \
     -p 8000 \
