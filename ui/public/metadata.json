@@ -1,9 +1,9 @@
 {
-  "name": "surrealdb",
+  "name": "SurrealDB",
   "description": {
     "en": "SurrealDB offers a dynamic and adaptable platform for business. With an integrated suite of cutting-edge database solutions, tools, and services, SurrealDB empowers your workforce to discover innovative answers using products meticulously crafted to meet their requirements."
   },
-  "categories": ["database", "backend as a service", "collaboration"],
+  "categories": ["database"],
   "authors": [
     {
       "name": "Kemboi Elvis",
@@ -15,8 +15,8 @@
     }
   ],
   "docs": {
-    "documentation_url": "https://docs.surrealdb.com/",
-    "bug_url": "https://github.com/geniusdynamics/ns8-surrealdb",
+    "documentation_url": "https://surrealdb.com/docs",
+    "bug_url": "https://github.com/geniusdynamics/dev",
     "code_url": "https://github.com/geniusdynamics/ns8-surrealdb"
   },
   "source": "ghcr.io/geniusdynamics/surrealdb"
