@@ -18,11 +18,14 @@ import agent
 config = {}
 
 # Read current configuration from the environment file
-config["host"] = os.getenv("TRAEFIK_HOST","")
+config["host"] = os.getenv("TRAEFIK_HOST", "")
 config["http2https"] = os.getenv("TRAEFIK_HTTP2HTTPS") == "True"
 config["lets_encrypt"] = os.getenv("TRAEFIK_LETS_ENCRYPT") == "True"
-config["SURREALDB_NAME"] = os.getenv("SURREALDB_NAME", "")
-config["SURREALDB_PASSWORD"] = os.getenv("SURREALDB_PASSWORD", "")
+if os.path.exists("database.env"):
+    data = agent.read_envfile("database.env")
+    config["SURREALDB_NAME"] = data.get("SURREALDB_NAME", "")
+    config["SURREALDB_PASSWORD"] = data.get("SURREALDB_PASSWORD", "")
+
 
 # Dump the configuration to stdout
 json.dump(config, fp=sys.stdout)

@@ -15,23 +15,25 @@ repobase="${REPOBASE:-ghcr.io/geniusdynamics}"
 # Configure the image name
 reponame="surrealdb"
 # Version of the image
-APP_VERSION="v2.0.0-alpha.5"
+
+APP_VERSION="v2.3.7"
+
 
 # Create a new empty container image
 container=$(buildah from scratch)
 
 # Reuse existing nodebuilder-surrealdb container, to speed up builds
 if ! buildah containers --format "{{.ContainerName}}" | grep -q nodebuilder-surrealdb; then
-    echo "Pulling NodeJS runtime..."
-    buildah from --name nodebuilder-surrealdb -v "${PWD}:/usr/src:Z" docker.io/library/node:lts
+	echo "Pulling NodeJS runtime..."
+	buildah from --name nodebuilder-surrealdb -v "${PWD}:/usr/src:Z" docker.io/library/node:lts
 fi
 
 echo "Build static UI files with node..."
 buildah run \
-    --workingdir=/usr/src/ui \
-    --env="NODE_OPTIONS=--openssl-legacy-provider" \
-    nodebuilder-surrealdb \
-    sh -c "yarn install && yarn build"
+	--workingdir=/usr/src/ui \
+	--env="NODE_OPTIONS=--openssl-legacy-provider" \
+	nodebuilder-surrealdb \
+	sh -c "yarn install && yarn build"
 
 # Add imageroot directory to the container image
 buildah add "${container}" imageroot /imageroot
@@ -44,11 +46,15 @@ buildah add "${container}" ui/dist /ui
 # rootfull=0 === rootless container
 # tcp-ports-demand=1 number of tcp Port to reserve , 1 is the minimum, can be udp or tcp
 buildah config --entrypoint=/ \
-    --label="org.nethserver.authorizations=traefik@node:routeadm" \
-    --label="org.nethserver.tcp-ports-demand=1" \
-    --label="org.nethserver.rootfull=0" \
-    --label="org.nethserver.images=docker.io/surrealdb/surrealdb:${APP_VERSION}" \
-    "${container}"
+
+
+	--label="org.nethserver.authorizations=traefik@node:routeadm" \
+	--label="org.nethserver.tcp-ports-demand=1" \
+	--label="org.nethserver.rootfull=0" \
+	--label="org.nethserver.images=docker.io/surrealdb/surrealdb:${APP_VERSION}" \
+	"${container}"
+
+
 # Commit the image
 buildah commit "${container}" "${repobase}/${reponame}"
 
@@ -66,14 +72,14 @@ images+=("${repobase}/${reponame}")
 #
 
 #
-# Setup CI when pushing to Github. 
+# Setup CI when pushing to Github.
 # Warning! docker::// protocol expects lowercase letters (,,)
 if [[ -n "${CI}" ]]; then
-    # Set output value for Github Actions
-    printf "images=%s\n" "${images[*],,}" >> "${GITHUB_OUTPUT}"
+	# Set output value for Github Actions
+	printf "images=%s\n" "${images[*],,}" >>"${GITHUB_OUTPUT}"
 else
-    # Just print info for manual push
-    printf "Publish the images with:\n\n"
-    for image in "${images[@],,}"; do printf "  buildah push %s docker://%s:%s\n" "${image}" "${image}" "${IMAGETAG:-latest}" ; done
-    printf "\n"
+	# Just print info for manual push
+	printf "Publish the images with:\n\n"
+	for image in "${images[@],,}"; do printf "  buildah push %s docker://%s:%s\n" "${image}" "${image}" "${IMAGETAG:-latest}"; done
+	printf "\n"
 fi
