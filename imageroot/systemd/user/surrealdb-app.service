@@ -24,9 +24,9 @@ ExecStart=/usr/bin/podman run --conmon-pidfile %t/surrealdb-app.pid \
     --pod-id-file %t/surrealdb.pod-id --replace -d --name  surrealdb-app \
     --volume mydata:/mydata  \
     ${SURREALDB_IMAGE} \
-    start -- --auth \
-    --user ${SURREALDB_NAME} \
-    --pass ${SURREALDB_PASSWORD} \
+    start \
+    -u ${SURREALDB_NAME} \
+    -p ${SURREALDB_PASSWORD} \
     --log trace \
     file:mydata/mydatabase.db
 ExecStop=/usr/bin/podman stop --ignore --cidfile %t/surrealdb-app.ctr-id -t 10
