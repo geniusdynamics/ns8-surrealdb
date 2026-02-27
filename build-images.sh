@@ -16,7 +16,8 @@ repobase="${REPOBASE:-ghcr.io/geniusdynamics}"
 reponame="surrealdb"
 # Version of the image
 
-APP_VERSION="v2.4"
+APP_VERSION="v2.6"
+
 
 # Create a new empty container image
 container=$(buildah from scratch)
