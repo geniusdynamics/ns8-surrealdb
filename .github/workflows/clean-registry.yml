@@ -15,5 +15,5 @@ jobs:
     steps:
       - uses: NethServer/ns8-github-actions/.github/actions/delete-image@v1
         with:
-          images: "surrealdb-ngx"
-          delete_image_token: ${{ secrets.IMAGES_CLEANUP_TOKEN }}
+          images: "surrealdb"
+          delete_image_token: ${{ secrets.GITHUB_TOKEN }}

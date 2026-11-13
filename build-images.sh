@@ -14,6 +14,9 @@ images=()
 repobase="${REPOBASE:-ghcr.io/geniusdynamics}"
 # Configure the image name
 reponame="surrealdb"
+# Node.js 25+ no longer ships Corepack, install it from npm
+# renovate: datasource=npm packageName=corepack
+corepack_version=0.36.0
 # Version of the image
 
 APP_VERSION="v3.0"
@@ -24,7 +27,8 @@ container=$(buildah from scratch)
 # Reuse existing nodebuilder-surrealdb container, to speed up builds
 if ! buildah containers --format "{{.ContainerName}}" | grep -q nodebuilder-surrealdb; then
   echo "Pulling NodeJS runtime..."
-  buildah from --name nodebuilder-surrealdb -v "${PWD}:/usr/src:Z" docker.io/library/node:lts
+  buildah from --name nodebuilder-surrealdb -v "${PWD}:/usr/src:Z" docker.io/library/node:26.13.0-slim
+  buildah run nodebuilder-surrealdb sh -c "npm install -g corepack@${corepack_version} && corepack enable"
 fi
 
 echo "Build static UI files with node..."
